@@ -21,16 +21,16 @@ int main(){
         cin>>x>>y>>c;
         graph[x].push_back(make_pair(y,c));
     }
-    queue<pair<long long,long long> > q;
-    q.push(make_pair(1,0));
+    priority_queue<pair<long long,long long>,vector<pair<long long,long long>>,greater<pair<long long,long long> > > q;
+    q.push(make_pair(0,1));
     while(!q.empty()){
-        auto [u,currentDist]=q.front();
+        auto [currentDist,u]=q.top();
         q.pop();
-
+        if(currentDist>cost[u]) continue;
         for(auto [v,c] :graph[u]){
             if(cost[v]>cost[u]+c){
-                cost[v]=(cost[u]+c);
-                q.push(make_pair(v,cost[v]));
+                cost[v]=cost[u]+c;
+                q.push(make_pair(cost[v],v));
             }
         }
     }
